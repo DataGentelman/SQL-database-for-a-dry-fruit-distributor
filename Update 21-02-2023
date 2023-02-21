@@ -1,0 +1,183 @@
+-- Crear la base de datos
+CREATE DATABASE distribucion_frutos_secos;
+
+-- Seleccionar la base de datos
+USE distribucion_frutos_secos;
+
+-- Crear la tabla de productos
+CREATE TABLE productos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL,
+  categoria VARCHAR(50) NOT NULL,
+  pack VARCHAR(50) NOT NULL,
+  precio DECIMAL(10, 2) NOT NULL
+);
+
+-- Modificar la tabla "productos" y agregar ejemplos de 25 productos
+ALTER TABLE productos ADD categoria VARCHAR(50), ADD pack VARCHAR(50), ADD precio DECIMAL(10,2);
+
+-- Insertar los productos en la tabla "productos"
+INSERT INTO productos (id, nombre, categoria, pack, precio)
+VALUES 
+(1, 'Maní', 'Frutos secos', 'Bolsa de 100 gramos', 50.00),
+(2, 'Almendras', 'Frutos secos', 'Bolsa de 100 gramos', 80.00),
+(3, 'Nueces', 'Frutos secos', 'Bolsa de 100 gramos', 90.00),
+(4, 'Pistachos', 'Frutos secos', 'Bolsa de 100 gramos', 100.00),
+(5, 'Castañas', 'Frutos secos', 'Bolsa de 100 gramos', 120.00),
+(6, 'Higos', 'Desecados', 'Bolsa de 100 gramos', 70.00),
+(7, 'Dátiles', 'Desecados', 'Bolsa de 100 gramos', 80.00),
+(8, 'Ciruelas pasas', 'Desecados', 'Bolsa de 100 gramos', 75.00),
+(9, 'Arándanos secos', 'Desecados', 'Bolsa de 100 gramos', 120.00),
+(10, 'Uvas pasas', 'Desecados', 'Bolsa de 100 gramos', 60.00),
+(11, 'Moras', 'Congelados', 'Bolsa de 1 kilogramo', 200.00),
+(12, 'Frambuesas', 'Congelados', 'Bolsa de 1 kilogramo', 180.00),
+(13, 'Arándanos', 'Congelados', 'Bolsa de 1 kilogramo', 150.00),
+(14, 'Frutillas', 'Congelados', 'Bolsa de 1 kilogramo', 120.00),
+(15, 'Duraznos', 'Congelados', 'Bolsa de 1 kilogramo', 100.00),
+(16, 'Almendras tostadas', 'Frutos secos', 'Bolsa de 100 gramos', 100.00),
+(17, 'Anacardos', 'Frutos secos', 'Bolsa de 100 gramos', 85.00),
+(18, 'Avellanas', 'Frutos secos', 'Bolsa de 100 gramos', 95.00),
+(19, 'Cacahuetes', 'Frutos secos', 'Bolsa de 100 gramos', 60.00),
+(20, 'Macadamias', 'Frutos secos', 'Bolsa de 100 gramos', 140.00),
+(21, 'Papayas deshidratadas', 'Desecados', 'Bolsa de 100 gramos', 65.00),
+(22, 'Piñas deshidratadas', 'Desecados', 'Bolsa de 100 gramos', 70.00),
+(23, 'Mangos deshidratados', 'Desecados', 'Bolsa de 100 gramos', 75.00);
+
+-- Crear la tabla de provincias
+CREATE TABLE provincias (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL,
+);
+
+-- Insertar los nombres de las provincias en la tabla "provincias"
+INSERT INTO provincias (id, nombre)
+VALUES 
+(1, 'Buenos Aires'),
+(2, 'Catamarca'),
+(3, 'Chaco',),
+(4, 'Chubut',),
+(5, 'Córdoba',),
+(6, 'Corrientes'),
+(7, 'Entre Ríos'),
+(8, 'Formosa'),
+(9, 'Jujuy'),
+(10, 'La Pampa'),
+(11, 'La Rioja'),
+(12, 'Mendoza'),
+(13, 'Misiones'),
+(14, 'Neuquén'),
+(15, 'Río Negro'),
+(16, 'Salta'),
+(17, 'San Juan'),
+(18, 'San Luis'),
+(19, 'Santa Cruz'),
+(20, 'Santa Fe'),
+(21, 'Santiago del Estero'),
+(22, 'Tierra del Fuego'),
+(23, 'Tucumán');
+
+-- Crear la tabla de tiendas
+CREATE TABLE tiendas (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  provincia_id INT NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
+  caracteristicas VARCHAR(50) NOT NULL,
+  FOREIGN KEY (provincia_id) REFERENCES provincias(id)
+);
+
+-- Modificar la tabla "tiendas" y agregar 2 tiendas por provincia
+ALTER TABLE tiendas ADD tienda_online BOOLEAN, ADD nombre_dietetica VARCHAR(50);
+
+-- Agregar tiendas a la tabla "tiendas"
+UPDATE tiendas SET tienda_online=0, nombre_dietetica='La Huerta' WHERE provincia='Buenos Aires';
+INSERT INTO tiendas (provincia, direccion, telefono, tienda_online, nombre_dietetica)
+VALUES 
+('Buenos Aires', 'Av. Corrientes 1234', '011-1111-1111', 1, 'Natural Life'),
+('Buenos Aires', 'Av. Santa Fe 4321', '011-2222-2222', 0, 'La Granola'),
+('Córdoba', 'Av. Colón 567', '0351-3333-3333', 1, 'Natura'),
+('Córdoba', 'Av. Castro Barros 789', '0351-4444-4444', 0, 'El Almacén del Celiaco'),
+('Santa Fe', 'Av. Rivadavia 234', '0342-5555-5555', 1, 'Vida Sana'),
+('Santa Fe', 'Av. San Martín 567', '0342-6666-6666', 0, 'El Bulevar de las Dietas'),
+('Mendoza', 'Av. Mitre 890', '0261-7777-7777', 1, 'La Tienda Verde'),
+('Mendoza', 'Av. San Juan 123', '0261-8888-8888', 0, 'La Dietética del Valle'),
+('Salta', 'Av. Belgrano 456', '0387-9999-9999', 1, 'La Cosecha'),
+('Salta', 'Av. San Martín 890', '0387-1010-1010', 0, 'Nuestra Tierra');
+
+-- Crear la tabla de tiempos
+CREATE TABLE tiempos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  anio INT NOT NULL,
+  trimestre INT NOT NULL,
+  mes INT NOT NULL
+);
+
+-- Crear la tabla de clientes
+CREATE TABLE clientes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  tipo VARCHAR(50) NOT NULL,
+  region VARCHAR(50) NOT NULL,
+  cantidades INT NOT NULL,
+  precios DECIMAL(10, 2) NOT NULL
+);
+
+-- Agregar clientes a la tabla "clientes"
+INSERT INTO clientes (id, nombre, tipo, region, cantidad, precio_venta)
+VALUES 
+(1, 'Juan Pérez', 'Individual', 'Buenos Aires', 2, 500),
+(2, 'María Fernández', 'Individual', 'Córdoba', 1, 800),
+(3, 'Luis Rodríguez', 'Pyme', 'Buenos Aires', 5, 1200),
+(4, 'Ana Gómez', 'Mayorista', 'Mendoza', 50, 1000),
+(5, 'Pedro González', 'Empresarial', 'Buenos Aires', 20, 1500),
+(6, 'Sofía Castro', 'Individual', 'Salta', 3, 600),
+(7, 'Jorge García', 'Pyme', 'Santa Fe', 10, 1500),
+(8, 'Gabriela Flores', 'Mayorista', 'Córdoba', 100, 900),
+(9, 'Lucas Díaz', 'Empresarial', 'Mendoza', 30, 2000),
+(10, 'Eva Gutiérrez', 'Individual', 'Buenos Aires', 2, 550),
+(11, 'Martín López', 'Pyme', 'Córdoba', 5, 1300),
+(12, 'Julia Torres', 'Mayorista', 'Santa Fe', 200, 850),
+(13'Diego Sánchez', 'Empresarial', 'Salta', 50, 1800),
+(14, 'Mariana Aguilar', 'Individual', 'Mendoza', 1, 1000),
+(15, 'Ricardo Ortiz', 'Pyme', 'Buenos Aires', 8, 1100),
+(16, 'Carla Rodríguez', 'Mayorista', 'Santa Fe', 150, 950),
+(17, 'Hernán Martínez', 'Empresarial', 'Córdoba', 25, 1900),
+(18, 'Florencia Giménez', 'Individual', 'Salta', 4, 700),
+(19, 'Pablo Sosa', 'Pyme', 'Mendoza', 7, 1400),
+(20,'Valeria Núñez', 'Mayorista', 'Buenos Aires', 300, 800),
+(21, 'Gustavo Romero', 'Empresarial', 'Santa Fe', 40, 2200),
+(22, 'Carolina Pérez', 'Individual', 'Córdoba', 1, 900),
+(23, 'Rafael Gómez', 'Pyme', 'Salta', 3, 1250),
+(24, 'Marcela Sánchez', 'Mayorista', 'Mendoza', 250, 850),
+(25, 'Tomás Flores', 'Empresarial', 'Buenos Aires', 15, 1700);
+
+-- Crear la tabla de vendedores
+CREATE TABLE vendedores (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL,
+  region VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla de proveedores
+CREATE TABLE proveedores (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL,
+  region VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla de ventas
+CREATE TABLE ventas (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  producto_id INT NOT NULL,
+  cliente_id INT NOT NULL,
+  vendedor_id INT NOT NULL,
+  proveedor_id INT NOT NULL,
+  tiempo_id INT NOT NULL,
+  cantidad INT NOT NULL,
+  precio DECIMAL(10, 2) NOT NULL,
+  envio VARCHAR(50) NOT NULL,
+  canal_venta VARCHAR(50) NOT NULL,
+  FOREIGN KEY (producto_id) REFERENCES productos(id),
+  FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+  FOREIGN KEY (vendedor_id) REFERENCES vendedores(id),
+  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id),
+  FOREIGN KEY (tiempo_id) REFERENCES tiempos(id)
+);
